@@ -37,8 +37,8 @@ def Table(value, set_value):
     return table
 
 @component
-def FilterableList():
-    value, set_value = hooks.use_state("")
+def FilterableList(value, set_value ):
+    
     return html.aside({"class_name": "filtre","id":"filtre"},Search(value, set_value), 
                   html.hr(), 
                   Table(value, set_value),
@@ -105,13 +105,13 @@ def App():
 @component
 def PresentationApp():
     index, set_index = hooks.use_state(0)
-
+    value, set_value = hooks.use_state("")
     def handle_next_click(event):
         set_index((index + 1)% 3)
     
     liste_comp = [html.div({"style": {"display": "flex","width":"100%"}},PrintButton("Play", "Playing"),PrintButton("Pause", "Pause")),
                   App(),
-                  FilterableList()
+                  FilterableList(value, set_value)
      ]
     return html.div({"style": {"display": "flex","flex_flow":"column","gap":"30px"}},
                     html.button({"on_click": handle_next_click},"Next component" ),liste_comp[index])
